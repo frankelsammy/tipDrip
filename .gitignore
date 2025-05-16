@@ -1,0 +1,15 @@
+# Node modules (both server and client)
+node_modules/
+
+# React build folder (you usually don't commit build folder)
+client/build/
+tip-drip/build/
+
+# Environment variables files
+.env
+
+# Logs
+*.log
+
+# Mac system files
+.DS_Store
