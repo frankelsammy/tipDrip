@@ -1,52 +1,33 @@
-.app-container {
-  min-height: 100vh;
-  text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2c3e50;
-
-  /* Gradient background from light blue to soft white */
-  background: linear-gradient(135deg, #a8dadc, #f1faee);
-  min-height: 100vh; /* fill full viewport height */
+.app-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 50px;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
 }
 
 .app-heading {
   margin-bottom: 20px;
-  font-size: 64px;
-  color: #2980b9;
-}
-
-.app-button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  margin: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.app-button:hover {
-  background-color: #2980b9;
+  font-size: 2rem;
 }
 
 .buttons-container {
   display: flex;
-  flex-direction: column; /* stacks children vertically */
-  align-items: center;    /* centers buttons horizontally */
-  gap: 15px;              /* adds vertical space between buttons */
-  margin-top: 20px;
+  gap: 10px;
 }
 
-/* Remove default margin and make sure the body fills the viewport */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.app-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.app-button:hover {
+  background-color: #2563eb;
 }
