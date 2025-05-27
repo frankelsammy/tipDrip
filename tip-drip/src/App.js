@@ -18,11 +18,11 @@ function App() {
 
   return (
     <div className="app-wrapper">
-      <h1 className='app-heading'>User 1</h1>
+      <h1 className='app-heading'>Jon Snow</h1>
       <div className="buttons-container">
-        <button className='app-button' onClick={() => handleClick('Button 1')}>Button 1</button>
+        {/* <button className='app-button' onClick={() => handleClick('Button 1')}>Button 1</button>
         <button className='app-button' onClick={() => handleClick('Button 2')}>Button 2</button>
-        <button className='app-button' onClick={() => handleClick('Button 3')}>Button 3</button>
+        <button className='app-button' onClick={() => handleClick('Button 3')}>Button 3</button> */}
       </div>
     </div>
   );

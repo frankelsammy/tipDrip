@@ -13,3 +13,6 @@ tip-drip/build/
 
 # Mac system files
 .DS_Store
+
+*.pyc
+__pycache__/
