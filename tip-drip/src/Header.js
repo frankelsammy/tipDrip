@@ -1,12 +1,13 @@
 import { Droplets } from 'lucide-react';
-
+import './Header.css';
 const Header = () => {
   return (
-    <header className="w-full bg-blue-600 text-white shadow-md px-6 py-4">
+    <header>
       <div className="flex items-center space-x-2">
-        <Droplets className="w-6 h-6" />
-        <span className="text-xl font-semibold">Tip Drip</span>
+        <Droplets className="logo" />
+        <span className="app-name">TipDrip</span>
       </div>
+      <hr></hr>
     </header>
   );
 };
