@@ -4,13 +4,13 @@ app = Flask(__name__)
 
 payments = [
     {"id": 1, "amount": 10.00},
-    {"id": 2, "amount": 2.00},
+    {"id": 2, "amount": 3.00},
     {"id": 3, "amount":  3.00}
 ]
 
 # GET all books
 @app.route('/payments', methods=['GET'])
-def get_books():
+def get_payments():
     return jsonify(payments)
 
 @app.route('/payments', methods=['POST'])
