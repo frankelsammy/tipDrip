@@ -1,5 +1,7 @@
 import React from 'react'
 import { users } from '@/lib/users';
+import TipButtons from '@/components/tipButtons';
+
 type Props = {
     params: {
         username: string;
@@ -25,17 +27,9 @@ export default function TipPage({ params }: Props) {
                 <div className="p-6 text-center">
                     <h1 className="text-2xl font-bold mb-1">Tip {user.displayName}</h1>
                     <p className="mb-6 text-gray-600">Select an amount to tip.</p>
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                        {tipOptions.map(amount => (
-                            <button
-                                key={amount}
-                                className="border-2 rounded-lg py-3 font-bold text-lg border-gray-200 text-blue-900"
-                                onClick={() => console.log(amount)}
-                            >
-                                ${amount}
-                            </button>
-                        ))}
-                    </div>
+
+                    <TipButtons tipOptions={tipOptions} />
+
                     <button className="w-full bg-blue-800 text-white py-3 rounded-lg font-semibold hover:bg-blue-900 transition">
                         Custom Tip
                     </button>
