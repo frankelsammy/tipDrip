@@ -1,6 +1,7 @@
 import React from 'react'
 import { users } from '@/lib/users';
 import TipButtons from '@/components/tipButtons';
+import CustomTipButton from '@/components/customTipButton';
 
 type Props = {
     params: {
@@ -27,12 +28,10 @@ export default function TipPage({ params }: Props) {
                 <div className="p-6 text-center">
                     <h1 className="text-2xl font-bold mb-1">Tip {user.displayName}</h1>
                     <p className="mb-6 text-gray-600">Select an amount to tip.</p>
-
                     <TipButtons tipOptions={tipOptions} />
-
-                    <button className="w-full bg-blue-800 text-white py-3 rounded-lg font-semibold hover:bg-blue-900 transition">
-                        Custom Tip
-                    </button>
+                    <div className="flex justify-center my-4">
+                        <CustomTipButton />
+                    </div>
                 </div>
             </div>
         </div>
