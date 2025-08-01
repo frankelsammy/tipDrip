@@ -6,8 +6,13 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
+interface CheckoutResponse {
+  sessionId: string;
+  error?: string;
+}
+
 export default function CheckoutPage() {
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState<string>('');
 
   const handleCheckout = async () => {
     const res = await fetch('/api/checkout', {
@@ -18,7 +23,11 @@ export default function CheckoutPage() {
       body: JSON.stringify({ unit_amount: Number(amount) }),
     });
 
-    const data = await res.json();
+    const data: CheckoutResponse = await res.json();
+    if (!data.sessionId) {
+      alert(data.error || 'Failed to create checkout session.');
+      return;
+    }
     const stripe = await stripePromise;
     await stripe?.redirectToCheckout({ sessionId: data.sessionId });
   };

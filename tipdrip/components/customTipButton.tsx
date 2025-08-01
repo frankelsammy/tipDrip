@@ -1,14 +1,12 @@
 'use client';
 import { useState } from 'react';
 import CustomTipModal from './customTipModal';
+import { useStripeCheckout } from '@/hooks/useStripeCheckout';
+
 
 export default function CustomTipButton() {
   const [showModal, setShowModal] = useState(false);
-
-  const handleTipSubmit = (amount: number) => {
-    console.log('Tip submitted:', amount);
-    // send to backend / process as needed
-  };
+  const checkout = useStripeCheckout();
 
   return (
     <>
@@ -21,7 +19,7 @@ export default function CustomTipButton() {
       {showModal && (
         <CustomTipModal
           onClose={() => setShowModal(false)}
-          onSubmit={handleTipSubmit}
+          onSubmit={(amount) => checkout(amount * 100)}
         />
       )}
     </>
