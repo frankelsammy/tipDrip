@@ -14,6 +14,7 @@ export default async function TipPage({ params }: Props) {
   if (!user) return notFound();
 
   const tipOptions = [user.tip1_amt, user.tip2_amt, user.tip3_amt, user.tip4_amt];
+  const effectiveAccountId = user.account_id;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -22,7 +23,7 @@ export default async function TipPage({ params }: Props) {
         <div className="p-6 text-center">
           <h1 className="text-2xl font-bold mb-1">Tip {user.displayName}</h1>
           <p className="mb-6 text-gray-600">Select an amount to tip.</p>
-          <TipButtons tipOptions={tipOptions} />
+          <TipButtons tipOptions={tipOptions} account_id={effectiveAccountId} />
           <div className="flex justify-center my-4">
             <CustomTipButton />
           </div>
