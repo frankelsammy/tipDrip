@@ -25,7 +25,7 @@ export default async function TipPage({ params }: Props) {
           <p className="mb-6 text-gray-600">Select an amount to tip.</p>
           <TipButtons tipOptions={tipOptions} account_id={effectiveAccountId} />
           <div className="flex justify-center my-4">
-            <CustomTipButton />
+            <CustomTipButton account_id={effectiveAccountId} />
           </div>
         </div>
       </div>

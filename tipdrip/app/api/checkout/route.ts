@@ -15,31 +15,29 @@ export async function POST(req: Request) {
 
     if (!account_id) {
       return NextResponse.json({ error: 'Missing accountId' }, { status: 400 });
+    } else {
+      console.log('At checkout: account_id', account_id);
     }
 
-const session = await stripe.checkout.sessions.create(
-  {
-    payment_method_types: ['card'],
-    mode: 'payment',
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'Example Product',
-          },
-          unit_amount,
-        },
-        quantity: 1,
+const session = await stripe.checkout.sessions.create({
+  payment_method_types: ['card'],
+  mode: 'payment',
+  line_items: [
+    {
+      price_data: {
+        currency: 'usd',
+        product_data: { name: 'Example Product' },
+        unit_amount,
       },
-    ],
-    success_url: `${origin}/success`,
-    cancel_url: `${origin}/cancel`,
+      quantity: 1,
+    },
+  ],
+  payment_intent_data: {
+    transfer_data: { destination: account_id },
   },
-  {
-    stripeAccount: account_id,
-  }
-);
+  success_url: `${origin}/success`,
+  cancel_url: `${origin}/cancel`,
+});
 
 
     return NextResponse.json({ sessionId: session.id });
