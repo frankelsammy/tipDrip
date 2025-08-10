@@ -5,18 +5,20 @@ import { useStripeCheckout } from '../hooks/useStripeCheckout';
 // Or provide the correct relative path to where useStripeCheckout.ts is located
 
 type Props = {
-    tipOptions: number[];
+    tipOptions: number[],
+    account_id: string
 }
 
-export default function TipButtons({ tipOptions }: Props) {
+export default function TipButtons({ tipOptions, account_id }: Props) {
     const checkout = useStripeCheckout();
+    console.log('account_id:', account_id);
 
     return (
         <div className="grid grid-cols-2 gap-4 mb-6">
             {tipOptions.map((amount) => (
                 <button
                     key={amount}
-                    onClick={() => checkout(amount * 100)}
+                    onClick={() => checkout((amount * 100), account_id)}
                     className="border-2 rounded-lg py-3 font-bold text-lg border-gray-200 text-blue-900"
                 >
                     ${amount}

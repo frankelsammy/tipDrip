@@ -3,8 +3,11 @@ import { useState } from 'react';
 import CustomTipModal from './customTipModal';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 
+type Props = {
+  account_id: string;
+};
 
-export default function CustomTipButton() {
+export default function CustomTipButton({ account_id }: Props) {
   const [showModal, setShowModal] = useState(false);
   const checkout = useStripeCheckout();
 
@@ -19,7 +22,7 @@ export default function CustomTipButton() {
       {showModal && (
         <CustomTipModal
           onClose={() => setShowModal(false)}
-          onSubmit={(amount) => checkout(amount * 100)}
+          onSubmit={(amount) => checkout(amount * 100, account_id)}
         />
       )}
     </>
