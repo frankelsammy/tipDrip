@@ -4,10 +4,11 @@ import CustomTipModal from './customTipModal';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 
 type Props = {
-  account_id: string;
+  account_id: string,
+  username: string
 };
 
-export default function CustomTipButton({ account_id }: Props) {
+export default function CustomTipButton({ account_id, username }: Props) {
   const [showModal, setShowModal] = useState(false);
   const checkout = useStripeCheckout();
 
@@ -22,7 +23,7 @@ export default function CustomTipButton({ account_id }: Props) {
       {showModal && (
         <CustomTipModal
           onClose={() => setShowModal(false)}
-          onSubmit={(amount) => checkout(amount * 100, account_id)}
+          onSubmit={(amount) => checkout(amount * 100, account_id, username)}
         />
       )}
     </>

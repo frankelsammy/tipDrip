@@ -8,13 +8,13 @@ export interface CheckoutResponse {
 }
 
 export function useStripeCheckout() {
-  const checkout = async (amount: number, accountId : string) => {
+  const checkout = async (amount: number, accountId : string, username: string) => {
     const res = await fetch('/api/checkout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ unit_amount: Number(amount), account_id: accountId, }),
+      body: JSON.stringify({ unit_amount: Number(amount), account_id: accountId, username }),
     });
 
     const data: CheckoutResponse = await res.json();

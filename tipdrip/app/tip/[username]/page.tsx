@@ -19,13 +19,13 @@ export default async function TipPage({ params }: Props) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-sm rounded-2xl shadow-lg bg-white">
-        <div className="bg-blue-800 text-white rounded-t-2xl p-4 font-bold text-lg">TIP DRIP</div>
+        <div className="bg-blue-800 text-white rounded-t-2xl p-4 font-bold text-lg">TIPDRIP</div>
         <div className="p-6 text-center">
           <h1 className="text-2xl font-bold mb-1">Tip {user.displayName}</h1>
           <p className="mb-6 text-gray-600">Select an amount to tip.</p>
-          <TipButtons tipOptions={tipOptions} account_id={effectiveAccountId} />
+          <TipButtons tipOptions={tipOptions} account_id={effectiveAccountId} username={user.username} />
           <div className="flex justify-center my-4">
-            <CustomTipButton account_id={effectiveAccountId} />
+            <CustomTipButton account_id={effectiveAccountId} username={user.username} />
           </div>
         </div>
       </div>
