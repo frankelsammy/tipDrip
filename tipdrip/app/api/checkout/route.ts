@@ -37,6 +37,10 @@ const session = await stripe.checkout.sessions.create({
   },
   success_url: `${origin}/success`,
   cancel_url: `${origin}/tip/${username}`,
+  metadata: {
+    username,
+    account_id,
+  },
 });
 
 
