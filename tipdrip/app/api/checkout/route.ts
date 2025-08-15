@@ -11,7 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
     const origin = req.headers.get('origin') || 'http://localhost:3000';
-    const { unit_amount = 2000, account_id } = await req.json();
+    const { unit_amount = 2000, account_id, username } = await req.json();
 
     if (!account_id) {
       return NextResponse.json({ error: 'Missing accountId' }, { status: 400 });
@@ -36,7 +36,11 @@ const session = await stripe.checkout.sessions.create({
     transfer_data: { destination: account_id },
   },
   success_url: `${origin}/success`,
-  cancel_url: `${origin}/cancel`,
+  cancel_url: `${origin}/tip/${username}`,
+  metadata: {
+    username,
+    account_id,
+  },
 });
 
 
