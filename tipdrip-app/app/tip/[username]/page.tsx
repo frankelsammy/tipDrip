@@ -1,6 +1,8 @@
 import clientPromise from '@/lib/mongodb';
-import TipButtons from '@/components/tipButtons';
-import CustomTipButton from '@/components/customTipButton';
+import TipButtons from '@/components/TipButtons';
+import CustomTipButton from '@/components/CustomTipButton';
+
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { notFound } from 'next/navigation';
 
 type Props = {
@@ -22,19 +24,54 @@ export default async function TipPage({ params }: Props) {
   const effectiveAccountId = user.account_id;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-sm rounded-2xl shadow-lg bg-white">
-        <div className="bg-blue-800 text-white rounded-t-2xl p-4 font-bold text-lg">TIPDRIP</div>
-        <div className="p-6 text-center">
-          <h1 className="text-2xl font-bold mb-1">Tip {user.display_name}</h1>
-          <p className="mb-6 text-gray-600">Select an amount to tip.</p>
-          <TipButtons tipOptions={tipOptions} account_id={effectiveAccountId} username={user.username} />
-          <div className="flex justify-center my-4">
-            <CustomTipButton account_id={effectiveAccountId} username={user.username} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <Flex
+      minH="100vh"
+      align="center"
+      justify="center"
+      bg="gray.50"
+    >
+      <Box
+        w="100%"
+        maxW="sm"
+        bg="white"
+        borderRadius="2xl"
+        boxShadow="lg"
+      >
+        <Box
+          bg="blue.600"
+          color="white"
+          borderTopRadius="2xl"
+          p={4}
+          fontWeight="bold"
+          fontSize="lg"
+        >
+          TIPDRIP
+        </Box>
+
+        <Box p={6} textAlign="center">
+          <Heading size="lg" mb={1}>
+            Tip {user.display_name}
+          </Heading>
+
+          <Text mb={6} color="gray.600">
+            Select an amount to tip.
+          </Text>
+
+          <TipButtons
+            tipOptions={tipOptions}
+            account_id={effectiveAccountId}
+            username={user.username}
+          />
+
+          <Flex justify="center" my={4}>
+            <CustomTipButton
+              account_id={effectiveAccountId}
+              username={user.username}
+            />
+          </Flex>
+        </Box>
+      </Box>
+    </Flex>
   );
 }
 
