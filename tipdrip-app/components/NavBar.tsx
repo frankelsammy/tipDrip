@@ -15,7 +15,7 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import NextLink from 'next/link';
 
-export default function NavBar() {
+export default function NavBar({ username }: { username: string }) {
   const bgColor = useColorModeValue('white', 'gray.800');
 
   return (
@@ -47,8 +47,8 @@ export default function NavBar() {
             My Account
           </MenuButton>
           <MenuList>
-            <MenuItem as={NextLink} href="/product1">
-              Product 1
+            <MenuItem as={NextLink} href={`/tip/${username}`}>
+              My Tip Page
             </MenuItem>
             <MenuItem as={NextLink} href="/product2">
               Product 2

@@ -26,7 +26,9 @@ type TipRecord = {
 
 const convertToCurrency = (amount: number) => `$${amount.toFixed(2)}`;
 
-const getDateString = (dateStr: string) => new Date(dateStr).toLocaleDateString();
+const getDateString = (dateStr: string) =>{
+  console.log("DateStr:", dateStr);
+   return new Date(dateStr).toLocaleDateString();}
 
 export default function TipHistoryTable({ accountId }: { accountId: string }) {
   const [history, setHistory] = useState<TipRecord[]>([]);

@@ -1,29 +1,16 @@
 // app/api/stripe/webhook/route.ts
-import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
-import clientPromise from '@/lib/mongodb';
-
-// export const config = {
-//   api: {
-//     bodyParser: false, // Required for Stripe signatures
-//   },
-// };
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+import clientPromise from "@/lib/mongodb";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-06-30.basil',
+  apiVersion: "2025-06-30.basil",
 });
 
 export async function POST(req: Request) {
-  console.log('stripe-webhook: request received', {
-    method: req.method,
-    headers: { 'stripe-signature': req.headers.get('stripe-signature') ?? null },
-  });
-
-  const sig = req.headers.get('stripe-signature');
+  const sig = req.headers.get("stripe-signature");
   const body = await req.text();
-
-  console.log("raw body length", body.length);
-
+  console.log("WEBHOOK HIT");
   let event: Stripe.Event;
 
   try {
@@ -32,38 +19,52 @@ export async function POST(req: Request) {
       sig!,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-    console.log("stripe-webhook: signature verified, event type =", event.type);
   } catch (err: any) {
-    console.error("stripe-webhook: signature verification failed", err.message);
-    return NextResponse.json(
-      { error: `Webhook Error: ${err.message}` },
-      { status: 400 }
-    );
+    console.error("Stripe signature failed:", err.message);
+    return new NextResponse("Invalid signature", { status: 400 });
   }
 
-  // Handle event
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
+  console.log("Stripe event:", event.type);
 
-    const amount = (session.amount_total ?? 0) / 100;
-    const username = session.metadata?.username;
-    const account_id = session.metadata?.account_id;
+  // Only trust money-confirmed events
+  if (event.type === "payment_intent.succeeded") {
+    const pi = event.data.object as Stripe.PaymentIntent;
 
-    console.log("Webhook: received session", session.id);
+    const amount = pi.amount / 100;
+    const username = pi.metadata?.username;
+    const account_id = pi.metadata?.account_id;
 
-    // Save to database
+    if (!username || !account_id) {
+      console.error("Missing metadata on PaymentIntent", pi.id);
+      return NextResponse.json({ received: true });
+    }
+
     const client = await clientPromise;
     const db = client.db("tipdrip");
 
-    await db.collection("tip-history").insertOne({
+    // 🔒 Idempotency: prevent duplicate inserts
+    const existing = await db
+      .collection("tip-history")
+      .findOne({ paymentIntentId: pi.id });
+
+    if (existing) {
+      console.log("⚠️ Duplicate webhook ignored:", pi.id);
+      return NextResponse.json({ received: true });
+    }
+
+    try {
+         await db.collection("tip-history").insertOne({
       username,
       account_id,
       amount,
-      date: new Date(),
-      sessionId: session.id,
+      date: new Date()
     });
 
-    console.log("Saved to mongo.");
+
+      console.log("Tip saved:", pi.id);
+    } catch (err) {
+      console.error("Mongo insert failed:", err);
+    }
   }
 
   return NextResponse.json({ received: true });

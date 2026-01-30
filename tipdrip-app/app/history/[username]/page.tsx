@@ -1,13 +1,26 @@
-'use client'
+import clientPromise from '@/lib/mongodb';
+import { notFound } from 'next/navigation';
 
 import { Box, Container, Heading, Divider, Flex } from "@chakra-ui/react";
 import NavBar from "@/components/NavBar";
-import TipHistoryTable from "@/components/TipHistory";
+import TipHistoryTable from "@/components/TipHistoryTable";
 
-export default function HistoryPage() {
+type Props = {
+  params: Promise<{ username: string }>;
+};
+export default async function HistoryPage({ params }: Props) {
+  const { username } = await params;
+  const client = await clientPromise;
+  const db = client.db('tipdrip'); 
+  const user = await db.collection('users').findOne({
+    username: { $regex: `^${username}$`, $options: 'i' }
+  });
+
+  if (!user) return notFound();
+
   return (
     <Box minH="100vh" bg="gray.50">
-      <NavBar />
+      <NavBar username={username} />
       
       <Container maxW="container.lg" pt={10}>
         {/* Page Title */}
@@ -25,7 +38,7 @@ export default function HistoryPage() {
 
         {/* Table Container */}
         <Flex justify="center" align="start" mt={8}>
-          <TipHistoryTable accountId="acct_1RwOgDLl1l7Vem7d" />
+          <TipHistoryTable accountId={user.account_id} />
         </Flex>
       </Container>
     </Box>

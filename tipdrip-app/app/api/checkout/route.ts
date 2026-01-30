@@ -23,29 +23,33 @@ export async function POST(req: Request) {
 
     const unit_amount = Math.round(amount); // Make sure it’s in cents
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'payment',
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: { name: 'Custom Tip' },
-            unit_amount, // amount in cents
-          },
-          quantity: 1,
-        },
-      ],
-      payment_intent_data: {
-        transfer_data: { destination: account_id },
+  const session = await stripe.checkout.sessions.create({
+  payment_method_types: ["card"],
+  mode: "payment",
+
+  line_items: [
+    {
+      price_data: {
+        currency: "usd",
+        product_data: { name: "Custom Tip" },
+        unit_amount,
       },
-      success_url: `${origin}/success`,
-      cancel_url: `${origin}/tip/${username}`,
-      metadata: {
-        username,
-        account_id,
-      },
-    });
+      quantity: 1,
+    },
+  ],
+
+  // 👇 THIS is the important change
+  payment_intent_data: {
+    transfer_data: { destination: account_id },
+    metadata: {
+      username,
+      account_id,
+    },
+  },
+
+  success_url: `${origin}/success`,
+  cancel_url: `${origin}/tip/${username}`,
+});
 
     return NextResponse.json({ url: session.url });
   } catch (error: any) {

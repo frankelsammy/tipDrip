@@ -12,14 +12,13 @@ type Props = {
 export default async function TipPage({ params }: Props) {
   const { username } = await params;
   const client = await clientPromise;
-  const db = client.db('tipdrip'); // use your actual db name
+  const db = client.db('tipdrip'); 
   const user = await db.collection('users').findOne({
     username: { $regex: `^${username}$`, $options: 'i' }
   });
 
   if (!user) return notFound();
 
-  // Adjust property names if needed to match your MongoDB document
   const tipOptions = user.tip_amounts || [user.tip1_amt, user.tip2_amt, user.tip3_amt, user.tip4_amt];
   const effectiveAccountId = user.account_id;
 
