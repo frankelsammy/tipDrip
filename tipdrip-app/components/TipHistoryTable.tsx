@@ -34,15 +34,21 @@ export default function TipHistoryTable({ accountId }: { accountId: string }) {
   const [history, setHistory] = useState<TipRecord[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+useEffect(() => {
     if (!accountId) return;
 
     const fetchHistory = async () => {
       try {
         const res = await fetch(`/api/tip-history?accountId=${accountId}`);
         if (!res.ok) throw new Error('Failed to fetch');
-        const data = await res.json();
-        setHistory(data);
+        const data: TipRecord[] = await res.json();
+
+        // Sort by date descending (newest first)
+        const sortedData = data.sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+
+        setHistory(sortedData);
       } catch (err) {
         console.error(err);
       } finally {
