@@ -1,9 +1,18 @@
-import Image from "next/image";
+import { getServerSession } from "next-auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession();
+
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-    </div>
+    <main style={{ padding: '20px' }}>
+      {session ? (
+        <div>
+          <h1>Logged in as {session.user?.name}</h1>
+          <p>Email: {session.user?.email}</p>
+        </div>
+      ) : (
+        <h1>Not logged in</h1>
+      )}
+    </main>
   );
 }
