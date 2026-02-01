@@ -20,7 +20,9 @@ export default async function TipPage({ params }: Props) {
   if (!user) return notFound();
 
   const tipOptions = user.tip_amounts || [user.tip1_amt, user.tip2_amt, user.tip3_amt, user.tip4_amt];
-  const effectiveAccountId = user.account_id;
+  const effectiveAccountId = user.stripeAccountId;
+
+  const display_name = user.name.split(' ').length > 1 ? user.name.split(' ')[0] : user.name;
 
   return (
     <Flex
@@ -49,7 +51,7 @@ export default async function TipPage({ params }: Props) {
 
         <Box p={6} textAlign="center">
           <Heading size="lg" mb={1}>
-            Tip {user.display_name}
+            Tip {display_name}
           </Heading>
 
           <Text mb={6} color="gray.600">

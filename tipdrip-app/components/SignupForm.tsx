@@ -61,7 +61,7 @@ export default function SignupForm(props: React.ComponentProps<typeof Box>) {
               variant="outline" 
               width="full" 
               leftIcon={<GoogleIcon />}
-              onClick={() => signIn("google", { callbackUrl: "/" })}
+              onClick={() => signIn("google", { callbackUrl: "/onboarding/create-account" })}
             >
               Continue with Google
             </Button>

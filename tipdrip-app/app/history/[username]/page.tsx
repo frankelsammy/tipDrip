@@ -38,7 +38,7 @@ export default async function HistoryPage({ params }: Props) {
 
         {/* Table Container */}
         <Flex justify="center" align="start" mt={8}>
-          <TipHistoryTable accountId={user.account_id} />
+          <TipHistoryTable accountId={user.stripeAccountId} />
         </Flex>
       </Container>
     </Box>

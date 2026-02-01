@@ -17,7 +17,7 @@ export async function GET(req: Request) {
 
     const history = await db
       .collection('tip-history')
-      .find({ account_id: accountId }) // exact field name from MongoDB
+      .find({ stripeAccountId: accountId })
       .toArray();
 
     return new Response(JSON.stringify(history), {
